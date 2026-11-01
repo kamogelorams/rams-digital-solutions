@@ -1,19 +1,26 @@
-# RAMS Digital Solutions website
+# RAMS Digital Solutions - Flask website (v2)
 
-A static one-page business website (HTML and CSS only, no build step).
+## Run
+    pip install -r requirements.txt
+    python app.py          ->  http://127.0.0.1:5000
 
-## Files
-- `index.html`: the whole site
-- `assets/`: logo images
-- `.nojekyll`: tells GitHub Pages to serve the files as they are
+## Pages
+Home, About, Services (+ one page per service), Contact, Privacy, Terms, 404,
+plus /sitemap.xml and /robots.txt.
 
-## Host it on GitHub Pages
-1. Create a new repository on GitHub (for example `rams-digital-solutions`).
-2. Upload everything in this folder to the repository root (`index.html` must be at the top level, not inside another folder).
-3. Go to **Settings > Pages**.
-4. Under **Build and deployment**, set **Source** to *Deploy from a branch*, choose the `main` branch and the `/ (root)` folder, then click **Save**.
-5. After a minute or two the site is live at `https://YOUR-USERNAME.github.io/REPOSITORY-NAME/`.
+## Edit your business details
+All in config.py: phone, WhatsApp number, email, location, tagline.
+IMPORTANT: set SITE_URL to your real domain (used for canonical links, sitemap, social previews):
+    export SITE_URL="https://yourdomain.co.za"
 
-## Editing
-- WhatsApp number: search `27715824446` in `index.html` and replace it (country code first, no plus sign or spaces).
-- Services text: edit the `<section id="services">` block.
+## Linking your database
+Service pages are stored in the `service` table (see models.py), so editing a row changes the site.
+Set DATABASE_URL (no code changes):
+    MySQL:      pip install PyMySQL         -> mysql+pymysql://user:pass@host/dbname
+    PostgreSQL: pip install psycopg2-binary -> postgresql+psycopg2://user:pass@host/dbname
+The table is created and filled with starter content on first run (services_data.py).
+groups_json / faqs_json / related_json hold JSON text.
+
+## Before going live
+- Review all service wording and the placeholder Privacy/Terms text
+- Run with a production server: gunicorn app:app
